@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teams | Zannan Bungudu White House</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0a0f1c;
+color:#fff;
+}
+
+header{
+padding:20px 5%;
+display:flex;
+justify-content:space-between;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
+position:sticky;
+top:0;
+}
+
+.logo{font-weight:bold;cursor:pointer}
+.logo span{color:#d4af37}
+
+.container{padding:40px 5%}
+
+.title{text-align:center;margin-bottom:30px}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover{
+transform:translateY(-8px);
+background:rgba(212,175,55,0.1);
+}
+
+.card img{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #d4af37;
+margin-bottom:10px;
+}
+
+.popup{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:#111827;
+padding:20px;
+width:90%;
+max-width:600px;
+border-radius:10px;
+max-height:80vh;
+overflow:auto;
+}
+
+.close{
+float:right;
+cursor:pointer;
+color:#d4af37;
+font-size:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+td,th{
+padding:10px;
+border-bottom:1px solid rgba(255,255,255,0.1);
+text-align:left;
+font-size:14px;
+}
+
+.role{color:#d4af37}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo" onclick="goHome()">ZANNAN <span>WHITE HOUSE</span></div>
+</header>
+
+<div class="container">
+<h2 class="title">Zannan Bungudu Foundation Teams</h2>
+<div class="grid" id="teamGrid"></div>
+</div>
+
+<div class="popup" id="popup">
+<div class="popup-content">
+<span class="close" onclick="closePopup()">✖</span>
+<div id="popupData"></div>
+</div>
+</div>
+
+<script>
+const teams = {
+team1: {
+name: "Zannan Bungudu Foundation",
+logo: "https://i.imgur.com/VSgX988.png",
+description: "Leadership & Strategic Development Team",
+members: [
+{name:"Haruna Lawali", role:"Chairman", address:"Zamfara Gusau", phone:"08166836059"},
+{name:"Abdulmalik Zubairu", role:"Secretary", address:"Bungudu", phone:"09000000000"},
+{name:"Aisha Bello", role:"Vice Chairman", address:"Zamfara", phone:"08000000000"}
+]
+}
+};
+
+const grid = document.getElementById("teamGrid");
+const popup = document.getElementById("popup");
+const popupData = document.getElementById("popupData");
+
+function loadTeams(){
+grid.innerHTML = "";
+
+Object.keys(teams).forEach(key=>{
+const t = teams[key];
+
+grid.innerHTML += `
+<div class="card" onclick="openTeam('${key}')">
+<img src="${t.logo}">
+<h3>${t.name}</h3>
+<p>${t.description}</p>
+</div>
+`;
+});
+}
+
+function openTeam(id){
+const t = teams[id];
+
+let rows = "";
+t.members.forEach(m=>{
+rows += `
+<tr>
+<td>${m.name}</td>
+<td class="role">${m.role}</td>
+<td>${m.address}</td>
+<td>${m.phone}</td>
+</tr>
+`;
+});
+
+popupData.innerHTML = `
+<h2>${t.name}</h2>
+<img src="${t.logo}" style="width:90px;border-radius:50%;margin-top:10px">
+<p>${t.description}</p>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Role</th>
+<th>Address</th>
+<th>Phone</th>
+</tr>
+${rows}
+</table>
+`;
+
+popup.style.display = "flex";
+}
+
+function closePopup(){
+popup.style.display = "none";
+}
+
+function goHome(){
+window.location.href = "index.html";
+}
+
+loadTeams();
+</script>
+
+</body>
+</html>
